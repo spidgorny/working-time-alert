@@ -1,19 +1,23 @@
 "use strict";
-exports.__esModule = true;
-var EventTypes_1 = require("./EventTypes");
-var PowerEvent = /** @class */ (function () {
-    function PowerEvent(eventType) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const EventTypes_1 = require("./EventTypes");
+const hyperhtml_1 = require("hyperhtml");
+class PowerEvent {
+    constructor(eventType) {
         this.timestamp = new Date();
         this.eventType = eventType;
     }
-    PowerEvent.prototype.getHTML = function () {
-        var time = this.timestamp.getHours() + ':' + this.timestamp.getMinutes();
+    getHTML() {
+        let time = this.timestamp.getHours() + ':' + this.timestamp.getMinutes();
+        let html = '';
         if (this.eventType == EventTypes_1.EventTypes.WORKING) {
-            time = '<span class="tag is-info">' + time + '</span>';
+            html = hyperhtml_1.default.wire() `<span class="tag is-info">${time}</span>`;
         }
-        return time;
-    };
-    return PowerEvent;
-}());
+        else {
+            html = time;
+        }
+        return html;
+    }
+}
 exports.PowerEvent = PowerEvent;
 //# sourceMappingURL=PowerEvent.js.map

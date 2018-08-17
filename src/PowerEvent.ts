@@ -1,4 +1,5 @@
 import {EventTypes} from "./EventTypes";
+import hyper from "hyperhtml";
 
 export class PowerEvent {
 
@@ -13,10 +14,13 @@ export class PowerEvent {
 
 	getHTML() {
 		let time = this.timestamp.getHours()+':'+this.timestamp.getMinutes();
+		let html = '';
 		if (this.eventType == EventTypes.WORKING) {
-			time = '<span class="tag is-info">'+time+'</span>';
+			html = hyper.wire()`<span class="tag is-info">${time}</span>`;
+		} else {
+			html = time;
 		}
-		return time;
+		return html;
 	}
 
 }

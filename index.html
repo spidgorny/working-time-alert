@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+<head>
+	<meta charset="UTF-8">
+	<title>Hello World!</title>
+	<link rel="stylesheet" href="node_modules/bulma/css/bulma.min.css"/>
+	<link rel="stylesheet" href="custom.css" />
+</head>
+<body>
+<section class="content">
+	<section class="container">
+		<h1 class="title">Working Time Alert</h1>
+		<h2 class="subtitle">Never miss the time to go home</h2>
+		<blockquote>We don't have access to SAP, so we take the time your computer is woken up and goes to sleep. To
+			track breaks correctly, please put your computer to sleep when leaving.
+		</blockquote>
+	</section>
+</section>
+<script>
+	const r = require('./src/renderer.js');
+	const re = new r.Renderer();
+</script>
+</body>
 </html>

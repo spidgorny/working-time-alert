@@ -1,6 +1,6 @@
 "use strict";
 // https://electronjs.org/docs/api/power-monitor
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var EventTypes;
 (function (EventTypes) {
     EventTypes["SUSPEND"] = "suspend";
@@ -9,3 +9,4 @@ var EventTypes;
     EventTypes["ON_BATTERY"] = "on-battery";
     EventTypes["SHUTDOWN"] = "shutdown";
 })(EventTypes = exports.EventTypes || (exports.EventTypes = {}));
+//# sourceMappingURL=EventTypes.js.map

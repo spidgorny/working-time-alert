@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 // Modules to control application life and create native browser window
 var EventTypes_1 = require("./src/EventTypes");
 var _a = require('electron'), app = _a.app, BrowserWindow = _a.BrowserWindow;
@@ -47,19 +47,20 @@ app.on('ready', function () {
     powerMonitor.on(EventTypes_1.EventTypes.SUSPEND, function () {
         console.log('The system is going to sleep');
         mainWindow.webContents.send('PowerEvent', {
-            type: EventTypes_1.EventTypes.SUSPEND,
+            type: EventTypes_1.EventTypes.SUSPEND
         });
     });
     powerMonitor.on(EventTypes_1.EventTypes.RESUME, function () {
         console.log('The system has to wake-up');
         mainWindow.webContents.send('PowerEvent', {
-            type: EventTypes_1.EventTypes.RESUME,
+            type: EventTypes_1.EventTypes.RESUME
         });
     });
     powerMonitor.on(EventTypes_1.EventTypes.SHUTDOWN, function () {
         console.log('The system is going to shutdown');
         mainWindow.webContents.send('PowerEvent', {
-            type: EventTypes_1.EventTypes.SHUTDOWN,
+            type: EventTypes_1.EventTypes.SHUTDOWN
         });
     });
 });
+//# sourceMappingURL=main.js.map

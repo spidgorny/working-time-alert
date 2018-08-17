@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var PowerEvent = /** @class */ (function () {
     function PowerEvent(eventType) {
         this.timestamp = new Date();
@@ -8,3 +8,4 @@ var PowerEvent = /** @class */ (function () {
     return PowerEvent;
 }());
 exports.PowerEvent = PowerEvent;
+//# sourceMappingURL=PowerEvent.js.map

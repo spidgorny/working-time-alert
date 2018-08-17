@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Hello World!</title>
+	<meta charset="UTF-8" />
+	<title>Working Time Alert</title>
 	<link rel="stylesheet" href="node_modules/bulma/css/bulma.min.css"/>
 	<link rel="stylesheet" href="custom.css" />
 </head>
@@ -11,13 +11,15 @@
 	<section class="container">
 		<h1 class="title">Working Time Alert</h1>
 		<h2 class="subtitle">Never miss the time to go home</h2>
-		<blockquote>We don't have access to SAP, so we take the time your computer is woken up and goes to sleep. To
-			track breaks correctly, please put your computer to sleep when leaving.
+		<blockquote>We don't have access to SAP, so we take the time your computer is woken up and goes to sleep. To	track breaks correctly, please put your computer to sleep when leaving.
 		</blockquote>
+		<div id="table">
+
+		</div>
 	</section>
 </section>
 <script>
-	const r = require('./src/renderer.js');
+	const r = require('./dist/Renderer.js');
 	const re = new r.Renderer();
 </script>
 </body>

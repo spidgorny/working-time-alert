@@ -26,6 +26,7 @@ var Renderer = /** @class */ (function () {
             if ('string' == typeof e.timestamp) {
                 e.timestamp = new Date(e.timestamp);
             }
+            e = Object.setPrototypeOf(e, PowerEvent_1.PowerEvent.prototype);
         }
         return events;
     };
@@ -45,24 +46,24 @@ var Renderer = /** @class */ (function () {
         });
         var table = this.getInOutTable(today);
         var total = table.reduce(function (total, row) {
-            var endTime;
-            if ('string' == typeof row.end) { // Working
-                endTime = new Date();
-            }
-            else {
-                endTime = row.end.timestamp;
-            }
-            var duration = endTime - row.start.timestamp;
+            var duration = row.end.timestamp - row.start.timestamp;
+            // update original row
+            row.duration = duration;
             return total + duration;
         }, 0);
-        var breaks = 0.5;
+        var prevEnd = null;
+        var breaks = table.reduce(function (total, row) {
+            if (prevEnd) {
+                total += row.start.timestamp - prevEnd;
+            }
+            prevEnd = row.end.timestamp;
+            return total;
+        }, 0);
         var html = hyperHTML.hyper(document.getElementById('table'));
-        html(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n<table class=\"table\">\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n</tr>\n\t\t", "\n</table>\n\t\t<p>Working time today: ", "h</p>\n\t\t<p>Breaks today: ", "</p>\n\t\t"], ["\n<table class=\"table\">\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n</tr>\n\t\t",
-            "\n</table>\n\t\t<p>Working time today: ", "h</p>\n\t\t<p>Breaks today: ", "</p>\n\t\t"])), table.map(function (row) {
-            return "\n\t\t\t\t<tr>\n\t\t\t\t<td>" + row.start.timestamp.getHours() + ":" + row.start.timestamp.getMinutes() + "</td>\n\t\t\t\t<td>" + ('string' == typeof (row.end)
-                ? row.end
-                : row.end.timestamp.getHours() + ':' + row.end.timestamp.getMinutes()) + "</td>\n\t\t\t\t</tr> \n\t\t\t\t";
-        }), (total / 60000 / 60).toFixed(2), breaks);
+        html(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n<table class=\"table\">\n<thead>\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n<th>\nDuration\n</th>\n</thead>\n</tr>\n\t\t", "\n</table>\n\t\t<p>Working time today: ", "h</p>\n\t\t<p>Breaks today: ", "h</p>\n\t\t"], ["\n<table class=\"table\">\n<thead>\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n<th>\nDuration\n</th>\n</thead>\n</tr>\n\t\t",
+            "\n</table>\n\t\t<p>Working time today: ", "h</p>\n\t\t<p>Breaks today: ", "h</p>\n\t\t"])), table.map(function (row) {
+            return "\n\t\t\t\t<tr>\n\t\t\t\t<td>" + row.start.getHTML() + "</td>\n\t\t\t\t<td>" + row.end.getHTML() + "</td>\n\t\t\t\t<td>" + (row.duration / 60000 / 60).toFixed(3) + "h</td>\n\t\t\t\t</tr> \n\t\t\t\t";
+        }), (total / 60000 / 60).toFixed(3), (breaks / 60000 / 60).toFixed(3));
     };
     Renderer.prototype.getInOutTable = function (today) {
         var table = [];
@@ -88,7 +89,7 @@ var Renderer = /** @class */ (function () {
         }
         // if started but not finished
         if (row) {
-            row.end = 'Working';
+            row.end = new PowerEvent_1.PowerEvent(EventTypes_1.EventTypes.WORKING);
             table.push(row);
         }
         return table;

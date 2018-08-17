@@ -11,4 +11,12 @@ export class PowerEvent {
 		this.eventType = eventType;
 	}
 
+	getHTML() {
+		let time = this.timestamp.getHours()+':'+this.timestamp.getMinutes();
+		if (this.eventType == EventTypes.WORKING) {
+			time = '<span class="tag is-info">'+time+'</span>';
+		}
+		return time;
+	}
+
 }

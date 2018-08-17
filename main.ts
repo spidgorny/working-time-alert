@@ -53,6 +53,12 @@ app.on('activate', function () {
 
 app.on('ready', () => {
 	const {powerMonitor} = require('electron');
+	// if the computer is just booted
+	// so the app will be started from autostart
+	// we need the boot event as well
+	mainWindow.webContents.send('PowerEvent', {
+		type: EventTypes.START,
+	});
 	powerMonitor.on(EventTypes.SUSPEND, () => {
 		console.log('The system is going to sleep');
 		mainWindow.webContents.send('PowerEvent', {

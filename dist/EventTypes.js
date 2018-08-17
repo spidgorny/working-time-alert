@@ -3,6 +3,7 @@
 exports.__esModule = true;
 var EventTypes;
 (function (EventTypes) {
+    EventTypes["WORKING"] = "working";
     EventTypes["START"] = "start";
     EventTypes["SUSPEND"] = "suspend";
     EventTypes["RESUME"] = "resume";

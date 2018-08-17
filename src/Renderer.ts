@@ -32,6 +32,7 @@ export class Renderer {
 			if ('string' == typeof e.timestamp) {
 				e.timestamp = new Date(e.timestamp);
 			}
+			e = Object.setPrototypeOf(e, PowerEvent.prototype);
 		}
 		return events;
 	}
@@ -54,19 +55,24 @@ export class Renderer {
 		});
 		const table = this.getInOutTable(today);
 		const total = table.reduce((total, row) => {
-			let endTime;
-			if ('string' == typeof row.end) { // Working
-				endTime = new Date();
-			} else {
-				endTime = row.end.timestamp;
-			}
-			const duration = endTime - row.start.timestamp;
+			const duration = row.end.timestamp - row.start.timestamp;
+			// update original row
+			row.duration = duration;
+
 			return total + duration;
 		}, 0);
-		const breaks = 0.5;
+		let prevEnd: Date = null;
+		const breaks = table.reduce((total, row) => {
+			if (prevEnd) {
+				total += row.start.timestamp - prevEnd;
+			}
+			prevEnd = row.end.timestamp;
+			return total;
+		}, 0);
 		const html = hyperHTML.hyper(document.getElementById('table'));
 		html`
 <table class="table">
+<thead>
 <tr>
 <th>
 Come
@@ -74,22 +80,25 @@ Come
 <th>
 Leave
 </th>
+<th>
+Duration
+</th>
+</thead>
 </tr>
 		${
 			table.map((row) =>
 				`
 				<tr>
-				<td>${row.start.timestamp.getHours()}:${row.start.timestamp.getMinutes()}</td>
-				<td>${'string' == typeof(row.end)
-					? row.end
-					: row.end.timestamp.getHours()+':'+row.end.timestamp.getMinutes()}</td>
+				<td>${row.start.getHTML()}</td>
+				<td>${row.end.getHTML()}</td>
+				<td>${(row.duration/60000/60).toFixed(3)}h</td>
 				</tr> 
 				`
 			)
 			}
 </table>
-		<p>Working time today: ${(total/60000/60).toFixed(2)}h</p>
-		<p>Breaks today: ${breaks}</p>
+		<p>Working time today: ${(total/60000/60).toFixed(3)}h</p>
+		<p>Breaks today: ${(breaks/60000/60).toFixed(3)}h</p>
 		`;
 	}
 
@@ -111,13 +120,12 @@ Leave
 					row.end = pe;
 					table.push(row);
 					row = null;
-
 				}
 			}
 		}
 		// if started but not finished
 		if (row) {
-			row.end = 'Working';
+			row.end = new PowerEvent(EventTypes.WORKING);
 			table.push(row);
 		}
 

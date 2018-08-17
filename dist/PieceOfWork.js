@@ -11,21 +11,22 @@ class PieceOfWork {
         }
     }
     toHTML() {
+        // 				<!--<td>${this.marginLeft.toFixed()} - ${this.marginRight.toFixed()} ${this.width.toFixed()}</td>-->
         return hyperhtml_1.default.wire() `
-				<tr>
+			<tr>
 				<td>${this.start.getHTML()}</td>
 				<td>${this.end.getHTML()}</td>
 				<td>
-				<progress class="progress is-primary" value="15" max="100" style=${{
-            'margin-left': '30%',
-            width: '70%'
-        }}>15%</progress>
+				<progress class="progress is-primary" value="100" max="100" style=${{
+            'margin-left': this.marginLeft + '%',
+            width: this.width + '%'
+        }}>${this.width}%</progress>
 </td>
 				<td>
 				${(this.duration / 60000 / 60).toFixed(3)}h
 				</td>
-				</tr> 
-				`;
+			</tr> 
+			`;
     }
 }
 exports.PieceOfWork = PieceOfWork;

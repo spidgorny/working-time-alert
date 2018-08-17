@@ -49,28 +49,11 @@ class Renderer {
         });
         const table = this.getInOutTable(today);
         table.calculateDuration();
+        table.calculateProgress();
         const html = hyperHTML.hyper(document.getElementById('table'));
         html `
-<table class="table">
-<thead>
-<tr>
-<th>
-Come
-</th>
-<th>
-Leave
-</th>
-<th width="99%" style="has-text-centered">
-Chart
-</th>
-<th>
-Duration
-</th>
-</thead>
-</tr>
-		${table.map((row) => row.toHTML())}
-</table>
-${this.renderTotals(table)}
+		${this.renderTotals(table)}
+		${table.toHTML()}
 		`;
     }
     getInOutTable(today) {

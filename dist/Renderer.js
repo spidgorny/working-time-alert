@@ -55,6 +55,7 @@ class Renderer {
 		${this.renderTotals(table)}
 		${table.toHTML()}
 		`;
+        document.title = `${(table.getRemaining() / 60000 / 60).toFixed(3)}h Remaining`;
     }
     getInOutTable(today) {
         const table = new WorkTable_1.WorkTable();

@@ -73,6 +73,7 @@ export class Renderer {
 		${this.renderTotals(table)}
 		${table.toHTML()}
 		`;
+		document.title = `${(table.getRemaining() / 60000 / 60).toFixed(3)}h Remaining`;
 	}
 
 	protected getInOutTable(today: PowerEvent[]) {

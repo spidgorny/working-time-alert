@@ -1,18 +1,23 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 // Modules to control application life and create native browser window
-var EventTypes_1 = require("./src/EventTypes");
-var _a = require('electron'), app = _a.app, BrowserWindow = _a.BrowserWindow;
+const EventTypes_1 = require("./src/EventTypes");
+const { app, BrowserWindow } = require('electron');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-var mainWindow;
+let mainWindow;
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 1024, height: 768 });
+    mainWindow = new BrowserWindow({
+        width: 1024,
+        height: 768,
+        useContentSize: true,
+        autoHideMenuBar: true,
+    });
     // and load the index.html of the app.
     mainWindow.loadFile('index.html');
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
         // Dereference the window object, usually you would store windows
@@ -42,30 +47,30 @@ app.on('activate', function () {
 });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-app.on('ready', function () {
-    var powerMonitor = require('electron').powerMonitor;
+app.on('ready', () => {
+    const { powerMonitor } = require('electron');
     // if the computer is just booted
     // so the app will be started from autostart
     // we need the boot event as well
     mainWindow.webContents.send('PowerEvent', {
-        type: EventTypes_1.EventTypes.START
+        type: EventTypes_1.EventTypes.START,
     });
-    powerMonitor.on(EventTypes_1.EventTypes.SUSPEND, function () {
+    powerMonitor.on(EventTypes_1.EventTypes.SUSPEND, () => {
         console.log('The system is going to sleep');
         mainWindow.webContents.send('PowerEvent', {
-            type: EventTypes_1.EventTypes.SUSPEND
+            type: EventTypes_1.EventTypes.SUSPEND,
         });
     });
-    powerMonitor.on(EventTypes_1.EventTypes.RESUME, function () {
+    powerMonitor.on(EventTypes_1.EventTypes.RESUME, () => {
         console.log('The system has to wake-up');
         mainWindow.webContents.send('PowerEvent', {
-            type: EventTypes_1.EventTypes.RESUME
+            type: EventTypes_1.EventTypes.RESUME,
         });
     });
-    powerMonitor.on(EventTypes_1.EventTypes.SHUTDOWN, function () {
+    powerMonitor.on(EventTypes_1.EventTypes.SHUTDOWN, () => {
         console.log('The system is going to shutdown');
         mainWindow.webContents.send('PowerEvent', {
-            type: EventTypes_1.EventTypes.SHUTDOWN
+            type: EventTypes_1.EventTypes.SHUTDOWN,
         });
     });
 });

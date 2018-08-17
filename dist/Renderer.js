@@ -59,11 +59,14 @@ var Renderer = /** @class */ (function () {
             prevEnd = row.end.timestamp;
             return total;
         }, 0);
+        var remaining = 7.7 * 60 * 60 * 1000 - total + breaks;
+        var remainingClass = (remaining > 0)
+            ? 'has-text-danger' : 'has-text-success';
         var html = hyperHTML.hyper(document.getElementById('table'));
-        html(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n<table class=\"table\">\n<thead>\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n<th>\nDuration\n</th>\n</thead>\n</tr>\n\t\t", "\n</table>\n\t\t<p>Working time today: ", "h</p>\n\t\t<p>Breaks today: ", "h</p>\n\t\t"], ["\n<table class=\"table\">\n<thead>\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n<th>\nDuration\n</th>\n</thead>\n</tr>\n\t\t",
-            "\n</table>\n\t\t<p>Working time today: ", "h</p>\n\t\t<p>Breaks today: ", "h</p>\n\t\t"])), table.map(function (row) {
-            return "\n\t\t\t\t<tr>\n\t\t\t\t<td>" + row.start.getHTML() + "</td>\n\t\t\t\t<td>" + row.end.getHTML() + "</td>\n\t\t\t\t<td>" + (row.duration / 60000 / 60).toFixed(3) + "h</td>\n\t\t\t\t</tr> \n\t\t\t\t";
-        }), (total / 60000 / 60).toFixed(3), (breaks / 60000 / 60).toFixed(3));
+        html(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n<table class=\"table\">\n<thead>\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n<th>\nDuration\n</th>\n</thead>\n</tr>\n\t\t", "\n</table>\n\n<div class=\"columns is-mobile\">\n  <div class=\"column has-text-centered\">\n\t<p class=\"is-size-1 has-text-weight-semibold is-marginless is-paddingless\">", "h</p>\n    <p class=\"is-marginless is-paddingless\">Working time today</p> \n  </div>\n  <div class=\"column has-text-centered\">\n\t<p class=\"is-size-1 has-text-weight-semibold is-marginless is-paddingless\">", "h</p>\n    <p class=\"is-marginless is-paddingless\">Breaks today</p>\n  </div>\n  <div class=\"column has-text-centered\">\n\t<p class=", ">\n\t\t", "h\n\t</p>\n    <p class=\"is-marginless is-paddingless\">Remaining</p>\n  </div>\n</div>\n\t\t"], ["\n<table class=\"table\">\n<thead>\n<tr>\n<th>\nCome\n</th>\n<th>\nLeave\n</th>\n<th>\nDuration\n</th>\n</thead>\n</tr>\n\t\t",
+            "\n</table>\n\n<div class=\"columns is-mobile\">\n  <div class=\"column has-text-centered\">\n\t<p class=\"is-size-1 has-text-weight-semibold is-marginless is-paddingless\">", "h</p>\n    <p class=\"is-marginless is-paddingless\">Working time today</p> \n  </div>\n  <div class=\"column has-text-centered\">\n\t<p class=\"is-size-1 has-text-weight-semibold is-marginless is-paddingless\">", "h</p>\n    <p class=\"is-marginless is-paddingless\">Breaks today</p>\n  </div>\n  <div class=\"column has-text-centered\">\n\t<p class=", ">\n\t\t", "h\n\t</p>\n    <p class=\"is-marginless is-paddingless\">Remaining</p>\n  </div>\n</div>\n\t\t"])), table.map(function (row) {
+            return "\n\t\t\t\t<tr>\n\t\t\t\t<td>" + row.start.getHTML() + "</td>\n\t\t\t\t<td>" + row.end.getHTML() + "</td>\n\t\t\t\t<td>\n\t\t\t\t" + (row.duration / 60000 / 60).toFixed(3) + "h\n\t\t\t\t</td>\n\t\t\t\t</tr> \n\t\t\t\t";
+        }), (total / 60000 / 60).toFixed(3), (breaks / 60000 / 60).toFixed(3), "is-size-1 has-text-weight-semibold is-marginless is-paddingless " + remainingClass, (remaining / 60000 / 60).toFixed(3));
     };
     Renderer.prototype.getInOutTable = function (today) {
         var table = [];

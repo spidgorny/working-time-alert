@@ -61,7 +61,7 @@ export class Renderer {
 
 			return total + duration;
 		}, 0);
-		let prevEnd: Date = null;
+		let prevEnd: number = null;
 		const breaks = table.reduce((total, row) => {
 			if (prevEnd) {
 				total += row.start.timestamp - prevEnd;
@@ -69,6 +69,9 @@ export class Renderer {
 			prevEnd = row.end.timestamp;
 			return total;
 		}, 0);
+		const remaining = 7.7 * 60 * 60 * 1000 - total + breaks;
+		const remainingClass = (remaining > 0)
+			? 'has-text-danger' : 'has-text-success';
 		const html = hyperHTML.hyper(document.getElementById('table'));
 		html`
 <table class="table">
@@ -91,14 +94,31 @@ Duration
 				<tr>
 				<td>${row.start.getHTML()}</td>
 				<td>${row.end.getHTML()}</td>
-				<td>${(row.duration/60000/60).toFixed(3)}h</td>
+				<td>
+				${(row.duration / 60000 / 60).toFixed(3)}h
+				</td>
 				</tr> 
 				`
 			)
 			}
 </table>
-		<p>Working time today: ${(total/60000/60).toFixed(3)}h</p>
-		<p>Breaks today: ${(breaks/60000/60).toFixed(3)}h</p>
+
+<div class="columns is-mobile">
+  <div class="column has-text-centered">
+	<p class="is-size-1 has-text-weight-semibold is-marginless is-paddingless">${(total / 60000 / 60).toFixed(3)}h</p>
+    <p class="is-marginless is-paddingless">Working time today</p> 
+  </div>
+  <div class="column has-text-centered">
+	<p class="is-size-1 has-text-weight-semibold is-marginless is-paddingless">${(breaks / 60000 / 60).toFixed(3)}h</p>
+    <p class="is-marginless is-paddingless">Breaks today</p>
+  </div>
+  <div class="column has-text-centered">
+	<p class=${"is-size-1 has-text-weight-semibold is-marginless is-paddingless "+remainingClass}>
+		${(remaining / 60000 / 60).toFixed(3)}h
+	</p>
+    <p class="is-marginless is-paddingless">Remaining</p>
+  </div>
+</div>
 		`;
 	}
 

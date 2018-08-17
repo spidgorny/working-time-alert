@@ -1,10 +1,12 @@
+import {EventTypes} from "./EventTypes";
+
 export class PowerEvent {
 
 	timestamp: Date;
 
-	eventType: string;
+	eventType: EventTypes;
 
-	constructor(eventType: string) {
+	constructor(eventType: EventTypes) {
 		this.timestamp = new Date();
 		this.eventType = eventType;
 	}

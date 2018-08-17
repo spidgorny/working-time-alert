@@ -1,1 +1,1 @@
-{"version":3,"file":"PowerEvent.js","sourceRoot":"","sources":["../src/PowerEvent.ts"],"names":[],"mappings":";;AAAA;IAMC,oBAAY,SAAiB;QAC5B,IAAI,CAAC,SAAS,GAAG,IAAI,IAAI,EAAE,CAAC;QAC5B,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC5B,CAAC;IAEF,iBAAC;AAAD,CAAC,AAXD,IAWC;AAXY,gCAAU"}
+{"version":3,"file":"PowerEvent.js","sourceRoot":"","sources":["../src/PowerEvent.ts"],"names":[],"mappings":";;AAEA;IAMC,oBAAY,SAAqB;QAChC,IAAI,CAAC,SAAS,GAAG,IAAI,IAAI,EAAE,CAAC;QAC5B,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;IAC5B,CAAC;IAEF,iBAAC;AAAD,CAAC,AAXD,IAWC;AAXY,gCAAU"}

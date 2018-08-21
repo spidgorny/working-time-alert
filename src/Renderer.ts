@@ -3,7 +3,7 @@ import {EventTypes} from "./EventTypes";
 import {PieceOfWork} from "./PieceOfWork";
 import {WorkTable} from "./WorkTable";
 
-const {ipcRenderer, Event} = require('electron');
+const {ipcRenderer} = require('electron');
 const Store = require('electron-store');
 const hyperHTML = require('hyperhtml');
 

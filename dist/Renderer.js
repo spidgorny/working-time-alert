@@ -4,7 +4,7 @@ const PowerEvent_1 = require("./PowerEvent");
 const EventTypes_1 = require("./EventTypes");
 const PieceOfWork_1 = require("./PieceOfWork");
 const WorkTable_1 = require("./WorkTable");
-const { ipcRenderer, Event } = require('electron');
+const { ipcRenderer } = require('electron');
 const Store = require('electron-store');
 const hyperHTML = require('hyperhtml');
 class Renderer {

@@ -20,8 +20,10 @@
 		"electron": "^2.0.0"
 	},
 	"dependencies": {
+		"auto-launch": "^5.0.5",
 		"bulma": "^0.7.1",
 		"electron-store": "^2.0.0",
-		"hyperhtml": "^2.13.0"
+		"hyperhtml": "^2.13.0",
+		"windows-shortcuts-appid": "^0.3.2"
 	}
 }

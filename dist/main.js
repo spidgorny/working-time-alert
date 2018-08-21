@@ -2,10 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // Modules to control application life and create native browser window
 const EventTypes_1 = require("./src/EventTypes");
+const TrayHandler_1 = require("./src/TrayHandler");
 const { app, BrowserWindow } = require('electron');
+const path = require('path');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let favicon = path.resolve(__dirname + '/../public/thumb_14790852260Close_Lid.png');
+favicon = favicon.replace('%USERPROFILE%', require('os').homedir());
+// console.log(favicon);
+let faviconIco = path.resolve(__dirname + '/../public/favicon.ico');
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -13,17 +19,30 @@ function createWindow() {
         height: 768,
         useContentSize: true,
         autoHideMenuBar: true,
+        icon: favicon,
+        show: false,
     });
     // and load the index.html of the app.
     mainWindow.loadFile('index.html');
     // Open the DevTools.
     // mainWindow.webContents.openDevTools();
-    // Emitted when the window is closed.
-    mainWindow.on('closed', function () {
+    mainWindow.on('close', (e) => {
+        e.preventDefault();
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        mainWindow = null;
+        //this.mainWindow = null;
+        //this.quit();
+        mainWindow.hide();
+    });
+    // Emitted when the window is closed.
+    mainWindow.on('closed', (e) => {
+        e.preventDefault();
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        // commented because we only minimize the window
+        //mainWindow = null;
     });
 }
 // This method will be called when Electron has finished
@@ -44,6 +63,11 @@ app.on('activate', function () {
     if (mainWindow === null) {
         createWindow();
     }
+});
+app.on('before-quit', (e) => {
+    // Handle menu-item or keyboard shortcut quit here
+    e.preventDefault();
+    mainWindow.hide();
 });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
@@ -73,5 +97,9 @@ app.on('ready', () => {
             type: EventTypes_1.EventTypes.SHUTDOWN,
         });
     });
+});
+app.on('ready', () => {
+    const Store = require('electron-store');
+    new TrayHandler_1.TrayHandler(app, mainWindow, new Store(), favicon, faviconIco);
 });
 //# sourceMappingURL=main.js.map

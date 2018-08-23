@@ -32,7 +32,7 @@ export class WorkTable extends Array {
 	}
 
 	getBreaks(): number {
-		let prevEnd: number = null;
+		let prevEnd: number = 0;
 		const breaks = this.reduce((total, row) => {
 			if (prevEnd) {
 				total += row.start.timestamp.getTime() - prevEnd;

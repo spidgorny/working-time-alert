@@ -27,7 +27,7 @@ class WorkTable extends Array {
         return total;
     }
     getBreaks() {
-        let prevEnd = null;
+        let prevEnd = 0;
         const breaks = this.reduce((total, row) => {
             if (prevEnd) {
                 total += row.start.timestamp.getTime() - prevEnd;

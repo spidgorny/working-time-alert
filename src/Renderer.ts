@@ -2,6 +2,7 @@ import {PowerEvent} from "./PowerEvent";
 import {EventTypes} from "./EventTypes";
 import {PieceOfWork} from "./PieceOfWork";
 import {WorkTable} from "./WorkTable";
+import {FabHandler} from "./FabHandler";
 
 const {ipcRenderer} = require('electron');
 const Store = require('electron-store');
@@ -20,6 +21,8 @@ export class Renderer {
 
 	timer: number;
 
+	fab: FabHandler;
+
 	constructor() {
 		this.store = new Store();
 
@@ -28,6 +31,7 @@ export class Renderer {
 		);
 		ipcRenderer.on('PowerEvent', this.onPowerEvent.bind(this));
 		this.start();
+		this.fab = new FabHandler();
 	}
 
 	start() {
@@ -80,6 +84,7 @@ export class Renderer {
 		${this.renderTotals(table)}
 		${table.toHTML()}
 		${this.renderLimits(table)}
+		${this.fab.render()}
 		`;
 		document.title = `${(table.getRemaining() / 60000 / 60).toFixed(3)}h Remaining`;
 	}
@@ -146,16 +151,16 @@ export class Renderer {
 			date.addHours(come || new Date(), 10),
 			table.getBreaks()
 		);
-		let breaksDate = date.parse(table.getBreaks().toString(), 'S');
-		const breaks = date.format(
-			breaksDate, 'HH:mm');
+		let breaksDate = new Date(table.getBreaks());
+		const breaks = date.format(breaksDate, 'HH:mm', true);
+		const maxLeaveBreaks = date.addMinutes(maxLeave, table.getBreaks()/60/1000);
 		const maxLeave30 = date.addMinutes(maxLeave, Math.max(table.getBreaks()/60/1000, 30));
 		const maxLeave45 = date.addMinutes(maxLeave, Math.max(table.getBreaks()/60/1000, 45);
 		return hyperHTML.wire()`
 		<table>
 			<tr>
     			<td>Max Leave Time (10h+${breaks}):</td> 
-				<td>${date.format(maxLeave, 'HH:mm')}</td>
+				<td>${date.format(maxLeaveBreaks, 'HH:mm')}</td>
 			</tr>
 			<tr>
     			<td>Max Leave Time (10h+30 min):</td> 

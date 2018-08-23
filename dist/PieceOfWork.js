@@ -18,11 +18,13 @@ class PieceOfWork {
 				<td>${this.start.getHTML()}</td>
 				<td>${this.end.getHTML()}</td>
 				<td>
-				<progress class="progress is-primary" value="100" max="100" style=${{
+				<progress class="progress is-primary" 
+					value="100" max="100" style=${{
             'margin-left': this.marginLeft + '%',
             width: this.width + '%'
-        }}>${this.width}%</progress>
-</td>
+        }}>
+				${this.width}%</progress>
+				</td>
 				<td>
 				${(this.duration / 60000 / 60).toFixed(3)}h
 				</td>

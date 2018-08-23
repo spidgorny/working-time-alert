@@ -17,7 +17,7 @@ export class PowerEvent {
 		let time = date.format(this.timestamp, 'HH:mm');
 		let html = '';
 		if (this.eventType == EventTypes.WORKING) {
-			html = hyper.wire()`<span class="tag is-info">${time}</span>`;
+			html = hyper.wire()`<span class="tag is-info is-loading">${time}</span>`;
 		} else {
 			html = time;
 		}

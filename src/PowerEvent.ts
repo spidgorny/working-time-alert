@@ -1,5 +1,6 @@
 import {EventTypes} from "./EventTypes";
 import hyper from "hyperhtml";
+const date = require('date-and-time');
 
 export class PowerEvent {
 
@@ -13,7 +14,7 @@ export class PowerEvent {
 	}
 
 	getHTML() {
-		let time = this.timestamp.getHours()+':'+this.timestamp.getMinutes();
+		let time = date.format(this.timestamp, 'HH:mm');
 		let html = '';
 		if (this.eventType == EventTypes.WORKING) {
 			html = hyper.wire()`<span class="tag is-info">${time}</span>`;

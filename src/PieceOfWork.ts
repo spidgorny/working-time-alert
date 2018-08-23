@@ -1,5 +1,6 @@
 import {PowerEvent} from "./PowerEvent";
 import hyper from "hyperhtml";
+const date = require('date-and-time');
 
 export class PieceOfWork {
 

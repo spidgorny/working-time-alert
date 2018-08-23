@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const hyperhtml_1 = require("hyperhtml");
+const date = require('date-and-time');
 class PieceOfWork {
     constructor(data) {
         this.duration = 0;

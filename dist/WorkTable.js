@@ -1,11 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const hyperhtml_1 = require("hyperhtml");
+const date = require('date-and-time');
 class WorkTable extends Array {
     // constructor(...items: PieceOfWork[]) {
     // 	super(...items);
     // 	this.__proto__ = Array.prototype;
     // }
+    getCome() {
+        if (this.length) {
+            return this[0].start.timestamp;
+        }
+        return null;
+    }
     calculateDuration() {
         this.map((row) => {
             const duration = row.end.timestamp.getTime() - row.start.timestamp.getTime();
@@ -31,7 +38,8 @@ class WorkTable extends Array {
         return breaks;
     }
     getRemaining() {
-        const remaining = 7.7 * 60 * 60 * 1000 - this.getTotal() + this.getBreaks();
+        const seven = 7.7 * 60 * 60 * 1000;
+        const remaining = this.getTotal() - seven + this.getBreaks();
         return remaining;
     }
     calculateProgress() {

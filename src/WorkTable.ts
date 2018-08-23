@@ -1,5 +1,6 @@
 import {PieceOfWork} from "./PieceOfWork";
 import hyper from "hyperhtml";
+const date = require('date-and-time');
 
 export class WorkTable extends Array {
 
@@ -7,6 +8,13 @@ export class WorkTable extends Array {
 	// 	super(...items);
 	// 	this.__proto__ = Array.prototype;
 	// }
+
+	getCome() {
+		if (this.length) {
+			return this[0].start.timestamp;
+		}
+		return null;
+	}
 
 	calculateDuration() {
 		this.map((row) => {
@@ -23,7 +31,7 @@ export class WorkTable extends Array {
 		return total;
 	}
 
-	getBreaks() {
+	getBreaks(): number {
 		let prevEnd: number = null;
 		const breaks = this.reduce((total, row) => {
 			if (prevEnd) {
@@ -36,7 +44,8 @@ export class WorkTable extends Array {
 	}
 
 	getRemaining() {
-		const remaining = 7.7 * 60 * 60 * 1000 - this.getTotal() + this.getBreaks();
+		const seven = 7.7 * 60 * 60 * 1000;
+		const remaining = this.getTotal() - seven + this.getBreaks();
 		return remaining;
 	}
 

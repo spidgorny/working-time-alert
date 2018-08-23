@@ -26,6 +26,9 @@ class WorkTable extends Array {
         }, 0);
         return total;
     }
+    getTotalH() {
+        return this.getTotal() / 60 / 60 / 1000;
+    }
     getBreaks() {
         let prevEnd = 0;
         const breaks = this.reduce((total, row) => {
@@ -37,10 +40,19 @@ class WorkTable extends Array {
         }, 0);
         return breaks;
     }
+    getBreaksM() {
+        return this.getBreaks() / 60 / 1000;
+    }
+    getBreaksH() {
+        return this.getBreaks() / 60 / 60 / 1000;
+    }
     getRemaining() {
         const seven = 7.7 * 60 * 60 * 1000;
-        const remaining = this.getTotal() - seven + this.getBreaks();
+        const remaining = this.getTotal() - seven; // + this.getBreaks();
         return remaining;
+    }
+    getRemainingH() {
+        return this.getRemaining() / 60 / 60 / 1000;
     }
     calculateProgress() {
         const min = this[0].start.timestamp;

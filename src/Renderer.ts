@@ -124,16 +124,16 @@ export class Renderer {
 			? 'has-text-danger' : 'has-text-success';
 		const remainingWithSign =
 			(table.getRemaining() > 0 ? '+' : '') +
-			(table.getRemaining() / 60000 / 60).toFixed(3);
+			(table.getRemainingH()).toFixed(3);
 
 		return hyperHTML.wire()`
 		<div class="columns is-mobile">
   <div class="column has-text-centered">
-	<p class="is-size-1 has-text-weight-semibold is-marginless is-paddingless">${(table.getTotal() / 60000 / 60).toFixed(3)}h</p>
+	<p class="is-size-1 has-text-weight-semibold is-marginless is-paddingless">${(table.getTotalH()).toFixed(3)}h</p>
     <p class="is-marginless is-paddingless">Working time today</p> 
   </div>
   <div class="column has-text-centered">
-	<p class="is-size-1 has-text-weight-semibold is-marginless is-paddingless">${(table.getBreaks() / 60000 / 60).toFixed(3)}h</p>
+	<p class="is-size-1 has-text-weight-semibold is-marginless is-paddingless">${(table.getBreaksH()).toFixed(3)}h</p>
     <p class="is-marginless is-paddingless">Breaks today</p>
   </div>
   <div class="column has-text-centered">
@@ -146,29 +146,36 @@ export class Renderer {
 	}
 
 	renderLimits(table: WorkTable) {
-		const come = table.getCome();
-		const maxLeave = date.addMilliseconds(
-			date.addHours(come || new Date(), 10),
-			table.getBreaks()
-		);
 		let breaksDate = new Date(table.getBreaks());
-		const breaks = date.format(breaksDate, 'HH:mm', true);
-		const maxLeaveBreaks = date.addMinutes(maxLeave, table.getBreaks()/60/1000);
-		const maxLeave30 = date.addMinutes(maxLeave, Math.max(table.getBreaks()/60/1000, 30));
-		const maxLeave45 = date.addMinutes(maxLeave, Math.max(table.getBreaks()/60/1000, 45);
+		const breaksHM = date.format(breaksDate, 'HH:mm', true);
+
+		const come = table.getCome() || new Date();
+		const minLeave = date.addMinutes(come, 7.7*60);	// addHours is rounding
+		const maxLeave = date.addHours(come, 10);
+
+		const minLeaveBreaks = date.addMinutes(minLeave, table.getBreaksM());
+		let minBreaks;
+		if (table.getTotalH() > 6) {
+			minBreaks = Math.max(table.getBreaksM(), 30);
+		} else if (table.getTotalH() > 9) {
+			minBreaks = Math.max(table.getBreaksM(), 45);
+		} else {
+			minBreaks = table.getBreaksM();
+		}
+		const minBreaksHM = date.format(new Date(minBreaks*60*1000), 'HH:mm', true);
+		const minBreaks10 = Math.max(table.getBreaksM(), 45);
+		const minBreaks10HM = date.format(new Date(minBreaks10 * 60 * 1000), 'HH:mm', true);
+		const maxLeaveBreaks = date.addMinutes(maxLeave, minBreaks10);
+
 		return hyperHTML.wire()`
 		<table>
 			<tr>
-    			<td>Max Leave Time (10h+${breaks}):</td> 
+    			<td>Min Leave Time (7.7h+${minBreaksHM}):</td> 
+				<td>${date.format(minLeaveBreaks, 'HH:mm')}</td>
+			</tr>
+			<tr>
+    			<td>Max Leave Time (10h+${minBreaks10HM}):</td> 
 				<td>${date.format(maxLeaveBreaks, 'HH:mm')}</td>
-			</tr>
-			<tr>
-    			<td>Max Leave Time (10h+30 min):</td> 
-				<td>${date.format(maxLeave30, 'HH:mm')}</td>
-			</tr>
-			<tr>
-    			<td>Max Leave Time (10h+45 min when working > 9h):</td> 	
-				<td>${date.format(maxLeave45, 'HH:mm')}</td>
 			</tr>
 		</table>	
 		`;

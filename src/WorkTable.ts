@@ -31,6 +31,10 @@ export class WorkTable extends Array {
 		return total;
 	}
 
+	getTotalH() {
+		return this.getTotal() / 60 / 60 / 1000;
+	}
+
 	getBreaks(): number {
 		let prevEnd: number = 0;
 		const breaks = this.reduce((total, row) => {
@@ -43,10 +47,22 @@ export class WorkTable extends Array {
 		return breaks;
 	}
 
+	getBreaksM() {
+		return this.getBreaks() / 60 / 1000;
+	}
+
+	getBreaksH() {
+		return this.getBreaks() / 60 / 60 / 1000;
+	}
+
 	getRemaining() {
 		const seven = 7.7 * 60 * 60 * 1000;
-		const remaining = this.getTotal() - seven + this.getBreaks();
+		const remaining = this.getTotal() - seven;// + this.getBreaks();
 		return remaining;
+	}
+
+	getRemainingH() {
+		return this.getRemaining() / 60 / 60 / 1000;
 	}
 
 	calculateProgress() {
